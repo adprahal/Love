@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Harmeet</title>
+    <title>For Harmeet ❤️</title>
     <style>
         body {
             display: flex;
@@ -11,28 +11,34 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            margin: 0;
             font-family: 'Arial', sans-serif;
             background-color: #ffeef8;
             overflow: hidden;
             text-align: center;
         }
-        h1 { color: #d63384; }
-        .buttons { margin-top: 20px; position: relative; width: 100%; height: 100px; }
+        h1 { color: #d63384; margin-bottom: 20px; }
+        .buttons { position: relative; width: 100%; height: 100px; }
         button {
             padding: 15px 30px;
             font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: 0.2s;
+            font-weight: bold;
         }
-        #yesBtn { background-color: #ff4d6d; color: white; }
+        #yesBtn { background-color: #ff4d6d; color: white; position: relative; z-index: 10; }
         #noBtn {
             background-color: #adb5bd;
             color: white;
             position: absolute;
+            transition: 0.1s;
         }
-        #message { display: none; color: #d63384; font-size: 1.5rem; font-weight: bold; margin-top: 20px; }
+        /* Success Screen Styles */
+        #success-content { display: none; }
+        .celebration-gif { width: 80%; max-width: 300px; border-radius: 15px; margin-bottom: 20px; }
+        .yay-text { color: #d63384; font-size: 1.8rem; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -45,28 +51,5 @@
         </div>
     </div>
     
-    <div id="message">Yay! You made a good choice! 😍</div>
-
-    <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const message = document.getElementById('message');
-        const mainContent = document.getElementById('main-content');
-
-        // The "Repel" Logic
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-        });
-
-        // The "Success" Logic
-        yesBtn.addEventListener('click', () => {
-            mainContent.style.display = 'none';
-            message.style.display = 'block';
-            document.body.style.backgroundColor = "#fff0f3";
-        });
-    </script>
-</body>
-</html>
+    <div id="success-content">
+        <img src="
