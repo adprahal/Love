@@ -1,0 +1,127 @@
+:root{
+  --bg:#ffeef4;
+  --card-bg:#fff;
+  --accent:#ff4d8b;
+  --muted:#666;
+  --shadow: 0 10px 30px rgba(0,0,0,0.06);
+  --gap:12px;
+  --radius:12px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:linear-gradient(180deg,var(--bg), #fff);
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+}
+
+/* Page layout */
+.page{
+  width:100%;
+  max-width:800px;
+  text-align:center;
+}
+
+/* Header */
+.hero h1{
+  margin:0;
+  font-size:3rem;
+  letter-spacing:0.02em;
+}
+.subtitle{
+  margin:8px 0 24px;
+  color:var(--muted);
+}
+
+/* Card */
+.card{
+  background:var(--card-bg);
+  border-radius:16px;
+  padding:28px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  margin:0 auto 20px;
+  width:90%;
+  max-width:600px;
+}
+
+/* image preview (if missing it'll hide via onerror attribute) */
+.preview{
+  width:64px;
+  height:64px;
+  object-fit:cover;
+  border-radius:12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* label under image */
+.label{
+  background: #fff;
+  padding:10px 18px;
+  border-radius:999px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  color:var(--muted);
+  font-weight:600;
+}
+
+/* Buttons container: keeps them side-by-side */
+.response-row{
+  display:flex;
+  gap:var(--gap);
+  justify-content:center;
+  align-items:center;
+  margin-top:6px;
+}
+
+/* Button base */
+.btn{
+  padding:10px 18px;
+  border-radius:999px;
+  border: none;
+  cursor:pointer;
+  font-weight:700;
+  min-width:96px;
+  transition:transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Visual styles for Yes / No */
+.btn-yes{
+  background:var(--accent);
+  color:#fff;
+}
+.btn-no{
+  background:#fff;
+  color:#333;
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+/* Hover / active */
+.btn:hover{ transform:translateY(-3px) }
+.btn:active{ transform:translateY(0) }
+
+/* Accessibility focus */
+.btn:focus{
+  outline:3px solid rgba(255,77,139,0.18);
+  outline-offset:4px;
+}
+
+/* OPTIONAL: swap visual order without editing HTML
+   If you want "No" to appear on the left visually, add .swap-order to .response-row */
+.response-row.swap-order .btn-yes { order: 2; }
+.response-row.swap-order .btn-no  { order: 1; }
+
+/* Responsive: stack on very small screens if needed */
+@media (max-width:380px){
+  .response-row{ flex-direction:column; gap:10px; }
+  .btn{ min-width:160px; width:100%; }
+}
