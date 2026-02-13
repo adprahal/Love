@@ -3,45 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gif Card</title>
+    <title>Custom Layout</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
+        .fade-in {
+            animation: fadeIn 1s ease-in;
         }
-        .main-image {
-            width: 80%;
-            max-width: 600px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 800px;
-        }
-        .grid img {
-            width: 100%;
-            border-radius: 5px;
+        .centered {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <img src="path/to/your/main-image.gif" alt="Main Gif" class="main-image">
-    <div class="grid">
-        <img src="path/to/image1.jpg" alt="Image 1">
-        <img src="path/to/image2.jpg" alt="Image 2">
-        <img src="path/to/image3.jpg" alt="Image 3">
-        <img src="path/to/image4.jpg" alt="Image 4">
-        <img src="path/to/image5.jpg" alt="Image 5">
-        <img src="path/to/image6.jpg" alt="Image 6">
-        <img src="path/to/image7.jpg" alt="Image 7">
-        <img src="path/to/image8.jpg" alt="Image 8">
+    <div class="row">
+        <img src="image1.jpg" alt="Image 1">
+        <img src="image2.jpg" alt="Image 2">
+        <img src="image3.jpg" alt="Image 3">
+    </div>
+
+    <div class="row centered">
+        <img src="image4.jpg" alt="Image 4">
+        <div class="gif-card">
+            <h2>Your Title</h2>
+            <h3>Your Subtitle</h3>
+            <p>Your message here.</p>
+            <img src="yourgif.gif" alt="Centered GIF">
+        </div>
+        <img src="image5.jpg" alt="Image 5">
+    </div>
+
+    <div class="row">
+        <img class="fade-in" src="image6.jpg" alt="Image 6">
+        <img class="fade-in" src="image7.jpg" alt="Image 7">
+        <img class="fade-in" src="image8.jpg" alt="Image 8">
     </div>
 </body>
 </html>
