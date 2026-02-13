@@ -359,6 +359,7 @@ button {
   yesBtn.addEventListener('click', () => {
     mainContent.style.display = 'none';
     successContent.style.display = 'flex';
+    document.body.style.overflow = 'auto';
     successInner.classList.remove('fade-in');
     void successInner.offsetWidth;
     successInner.classList.add('fade-in');
