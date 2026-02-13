@@ -1,44 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Layout</title>
-    <style>
-        .fade-in {
-            animation: fadeIn 1s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .centered {
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For Harmeet ❤️</title>
+<style>
+:root{
+  --pink:#ffeef8;
+  --accent:#d63384;
+  --yes:#ff4d6d;
+  --no:#adb5bd;
+  --card-bg: rgba(255,255,255,0.85);
+}
+html,body{
+  height:100%;
+  margin:0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Arial', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--pink);
+  overflow: hidden;
+  text-align: center;
+}
+h1 { color: var(--accent); margin: 0 0 12px 0; }
+
+/* Buttons area: flex so buttons are side-by-side by default */
+.buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  pointer-events: auto;
+  position: relative;
+}
+
+/* Shared button styles */
+button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  font-weight: bold;
+}
+
+/* Yes button stays in normal flow */
+#yesBtn {
+  background-color: var(--yes);
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+/* No button: normal flow initially (so it sits next to Yes).
+   When it needs to escape we set position:fixed in JS to move it freely. */
+#noBtn {
+  background-color: var(--no);
+  color: white;
+  position: relative;
+  z-index: 20;
+  cursor: pointer;
+  min-width: 96px;
+}
+
+/* Success Screen Styles */
+#success-content {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,238,248,0.95), rgba(255,244,248,0.97));
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.success-inner {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px 20px;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+}
+
+/* Header section (title, subtitle, gif, message) */
+.header-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.success-title {
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 900;
+  color: #111;
+  letter-spacing: 1px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin: 0;
+}
+
+.emoji {
+  font-size: 0.9em;
+  transform: translateY(2px);
+}
+
+.success-sub {
+  color:#333;
+  font-size: clamp(14px, 2.2vw, 18px);
+  margin: 0;
+}
+
+.gif-card {
+  width: min(380px, 72vw);
+  height: auto;
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.06);
+}
+
+.gif-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.love-text {
+  color:#222;
+  font-size: clamp(14px, 2vw, 18px);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main grid container */
+.main-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Row sections */
+.grid-row {
+  display: contents;
+}
+
+.grid-row.row-top {
+  display: contents;
+}
+
+.grid-row.row-middle {
+  display: contents;
+}
+
+.grid-row.row-bottom {
+  display: contents;
+}
+
+/* Image box styles */
+.image-box {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.06);
+  aspect-ratio: 1 / 1;
+  opacity: 0;
+  animation: fadeScale 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/* Center column spanning row 2 */
+.center-column {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Image animation delays */
+.image-box:nth-child(1) { animation-delay: 0.1s; }
+.image-box:nth-child(2) { animation-delay: 0.2s; }
+.image-box:nth-child(3) { animation-delay: 0.3s; }
+.image-box:nth-child(4) { animation-delay: 0.4s; }
+.image-box:nth-child(5) { animation-delay: 0.5s; }
+.image-box:nth-child(6) { animation-delay: 0.6s; }
+.image-box:nth-child(7) { animation-delay: 0.7s; }
+.image-box:nth-child(8) { animation-delay: 0.8s; }
+
+.fade-in {
+  animation: fadeScale .38s cubic-bezier(.2,.9,.2,1) both;
+}
+
+@keyframes fadeScale{
+  from { opacity:0; transform: scale(.96) translateY(8px); }
+  to { opacity:1; transform: scale(1) translateY(0); }
+}
+
+@media (min-width:900px){
+  .success-inner { padding: 36px; gap:16px; }
+}
+
+@media (max-width: 768px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .center-column {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  
+  .image-box {
+    padding: 6px;
+  }
+}
+</style>
 </head>
 <body>
-    <div class="row">
-        <img src="image1.jpg" alt="Image 1">
-        <img src="image2.jpg" alt="Image 2">
-        <img src="image3.jpg" alt="Image 3">
-    </div>
+<div id="main-content">
+  <h1>Harmeet, will you be mine? ❤️</h1>
+  <div class="buttons">
+    <button id="yesBtn" type="button">Yes</button>
+    <button id="noBtn"  type="button">No</button>
+  </div>
+</div>
 
-    <div class="row centered">
-        <img src="image4.jpg" alt="Image 4">
-        <div class="gif-card">
-            <h2>Your Title</h2>
-            <h3>Your Subtitle</h3>
-            <p>Your message here.</p>
-            <img src="yourgif.gif" alt="Centered GIF">
+<div id="success-content" aria-live="polite" role="dialog">
+  <div class="success-inner fade-in" id="success-inner">
+    
+    <div class="main-grid">
+      <!-- Row 1: Images 1, 2, 3 -->
+      <div class="image-box">
+        <img src="1.jpg" alt="Memory 1">
+      </div>
+      <div class="image-box">
+        <img src="2.jpg" alt="Memory 2">
+      </div>
+      <div class="image-box">
+        <img src="3.jpg" alt="Memory 3">
+      </div>
+
+      <!-- Row 2: Image 4, Center section, Image 5 -->
+      <div class="image-box">
+        <img src="4.jpg" alt="Memory 4">
+      </div>
+
+      <div class="center-column">
+        <div class="success-title">
+          <span class="emoji">💖</span>
+          <span>YAY!!!</span>
+          <span class="emoji">💖</span>
         </div>
-        <img src="image5.jpg" alt="Image 5">
-    </div>
+        <div class="success-sub">Best decision ever 😘</div>
+        <div class="gif-card" aria-hidden="false">
+          <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHkyNmd1cjJoZ2F6eThmZDFnaWl0M2JtcjJtcW5jMjV4eGx2Z3F6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gkR9QMDSXg5DDJ0hKI/giphy.gif" alt="disco ball" />
+        </div>
+        <div class="love-text">I love you <span style="color:#ff4d6d;font-size:1.05em;">❤️</span></div>
+      </div>
 
-    <div class="row">
-        <img class="fade-in" src="image6.jpg" alt="Image 6">
-        <img class="fade-in" src="image7.jpg" alt="Image 7">
-        <img class="fade-in" src="image8.jpg" alt="Image 8">
+      <div class="image-box">
+        <img src="5.jpg" alt="Memory 5">
+      </div>
+
+      <!-- Row 3: Images 6, 7, 8 -->
+      <div class="image-box">
+        <img src="6.jpg" alt="Memory 6">
+      </div>
+      <div class="image-box">
+        <img src="7.jpg" alt="Memory 7">
+      </div>
+      <div class="image-box">
+        <img src="8.jpg" alt="Memory 8">
+      </div>
     </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const mainContent = document.getElementById('main-content');
+  const successContent = document.getElementById('success-content');
+  const successInner = document.getElementById('success-inner');
+
+  function placeNoBtnRandom() {
+    noBtn.style.position = 'fixed';
+    const btnRect = noBtn.getBoundingClientRect();
+    const btnW = Math.max(btnRect.width, 60);
+    const btnH = Math.max(btnRect.height, 36);
+    const padding = 12;
+    const maxX = Math.max(window.innerWidth - btnW - padding, padding);
+    const maxY = Math.max(window.innerHeight - btnH - padding, padding);
+
+    const avoidCenterX = window.innerWidth / 2;
+    const avoidCenterY = window.innerHeight / 2;
+    let x, y, tries = 0;
+    do {
+      x = Math.floor(Math.random() * (maxX - padding + 1)) + padding;
+      y = Math.floor(Math.random() * (maxY - padding + 1)) + padding;
+      tries++;
+      if (tries > 40) break;
+    } while (Math.hypot(x - avoidCenterX, y - avoidCenterY) < 120);
+
+    noBtn.style.left = x + 'px';
+    noBtn.style.top  = y + 'px';
+    noBtn.style.transform = 'translateZ(0) scale(1)';
+  }
+
+  yesBtn.addEventListener('click', () => {
+    mainContent.style.display = 'none';
+    successContent.style.display = 'flex';
+    successInner.classList.remove('fade-in');
+    void successInner.offsetWidth;
+    successInner.classList.add('fade-in');
+  });
+
+  noBtn.addEventListener('mouseenter', () => {
+    placeNoBtnRandom();
+  });
+
+  const PROXIMITY_THRESHOLD = 100;
+  document.addEventListener('mousemove', (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+    if (dist < PROXIMITY_THRESHOLD) {
+      placeNoBtnRandom();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    const rect = noBtn.getBoundingClientRect();
+    if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
+      placeNoBtnRandom();
+    }
+  });
+
+})();
+</script>
 </body>
 </html>
