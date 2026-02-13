@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -38,7 +39,7 @@ h1 { color: var(--accent); margin: 0 0 12px 0; }
   width: 100%;
   height: 120px;
   pointer-events: auto;
-  position: relative; /* kept in case you want absolute children */
+  position: relative;
 }
 
 /* Shared button styles */
@@ -65,7 +66,7 @@ button {
 #noBtn {
   background-color: var(--no);
   color: white;
-  position: relative; /* changed from fixed */
+  position: relative;
   z-index: 20;
   cursor: pointer;
   min-width: 96px;
@@ -82,11 +83,13 @@ button {
   justify-content: center;
   padding: 32px;
   box-sizing: border-box;
-  flex-direction: column;
-  gap: 18px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
 .success-inner {
-  width: min(680px, 92vw);
+  width: 100%;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,6 +99,17 @@ button {
   box-sizing: border-box;
   backdrop-filter: blur(4px);
 }
+
+/* Header section (title, subtitle, gif, message) */
+.header-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
 .success-title {
   font-size: clamp(28px, 6vw, 48px);
   font-weight: 900;
@@ -104,53 +118,149 @@ button {
   display:flex;
   align-items:center;
   gap:12px;
+  margin: 0;
 }
+
 .emoji {
   font-size: 0.9em;
   transform: translateY(2px);
 }
+
 .success-sub {
   color:#333;
   font-size: clamp(14px, 2.2vw, 18px);
-  margin-top: 6px;
+  margin: 0;
 }
-.gif-card{
+
+.gif-card {
   width: min(380px, 72vw);
   height: auto;
   background: var(--card-bg);
   border-radius: 14px;
   padding: 8px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   border: 2px solid rgba(0,0,0,0.06);
 }
-.gif-card img{
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:8px;
-  pointer-events:none;
+
+.gif-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  pointer-events: none;
 }
+
 .love-text {
   color:#222;
-  font-size:clamp(14px, 2vw, 18px);
-  margin-top: 10px;
-  display:flex;
-  align-items:center;
-  gap:8px;
+  font-size: clamp(14px, 2vw, 18px);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+/* Main grid container */
+.main-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Row sections */
+.grid-row {
+  display: contents;
+}
+
+.grid-row.row-top {
+  display: contents;
+}
+
+.grid-row.row-middle {
+  display: contents;
+}
+
+.grid-row.row-bottom {
+  display: contents;
+}
+
+/* Image box styles */
+.image-box {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.06);
+  aspect-ratio: 1 / 1;
+  opacity: 0;
+  animation: fadeScale 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/* Center column spanning row 2 */
+.center-column {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Image animation delays */
+.image-box:nth-child(1) { animation-delay: 0.1s; }
+.image-box:nth-child(2) { animation-delay: 0.2s; }
+.image-box:nth-child(3) { animation-delay: 0.3s; }
+.image-box:nth-child(4) { animation-delay: 0.4s; }
+.image-box:nth-child(5) { animation-delay: 0.5s; }
+.image-box:nth-child(6) { animation-delay: 0.6s; }
+.image-box:nth-child(7) { animation-delay: 0.7s; }
+.image-box:nth-child(8) { animation-delay: 0.8s; }
+
 .fade-in {
   animation: fadeScale .38s cubic-bezier(.2,.9,.2,1) both;
 }
+
 @keyframes fadeScale{
   from { opacity:0; transform: scale(.96) translateY(8px); }
   to { opacity:1; transform: scale(1) translateY(0); }
 }
+
 @media (min-width:900px){
   .success-inner { padding: 36px; gap:16px; }
+}
+
+@media (max-width: 768px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .center-column {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  
+  .image-box {
+    padding: 6px;
+  }
 }
 </style>
 </head>
@@ -165,16 +275,52 @@ button {
 
 <div id="success-content" aria-live="polite" role="dialog">
   <div class="success-inner fade-in" id="success-inner">
-    <div class="success-title">
-      <span class="emoji">💖</span>
-      <span>YAY!!!</span>
-      <span class="emoji">💖</span>
+    
+    <div class="main-grid">
+      <!-- Row 1: Images 1, 2, 3 -->
+      <div class="image-box">
+        <img src="1.jpg" alt="Memory 1">
+      </div>
+      <div class="image-box">
+        <img src="2.jpg" alt="Memory 2">
+      </div>
+      <div class="image-box">
+        <img src="3.jpg" alt="Memory 3">
+      </div>
+
+      <!-- Row 2: Image 4, Center section, Image 5 -->
+      <div class="image-box">
+        <img src="4.jpg" alt="Memory 4">
+      </div>
+
+      <div class="center-column">
+        <div class="success-title">
+          <span class="emoji">💖</span>
+          <span>YAY!!!</span>
+          <span class="emoji">💖</span>
+        </div>
+        <div class="success-sub">Best decision ever 😘</div>
+        <div class="gif-card" aria-hidden="false">
+          <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHkyNmd1cjJoZ2F6eThmZDFnaWl0M2JtcjJtcW5jMjV4eGx2Z3F6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gkR9QMDSXg5DDJ0hKI/giphy.gif" alt="disco ball" />
+        </div>
+        <div class="love-text">I love you <span style="color:#ff4d6d;font-size:1.05em;">❤️</span></div>
+      </div>
+
+      <div class="image-box">
+        <img src="5.jpg" alt="Memory 5">
+      </div>
+
+      <!-- Row 3: Images 6, 7, 8 -->
+      <div class="image-box">
+        <img src="6.jpg" alt="Memory 6">
+      </div>
+      <div class="image-box">
+        <img src="7.jpg" alt="Memory 7">
+      </div>
+      <div class="image-box">
+        <img src="8.jpg" alt="Memory 8">
+      </div>
     </div>
-    <div class="success-sub">Best decision ever 😘</div>
-    <div class="gif-card" aria-hidden="false">
-      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHkyNmd1cjJoZ2F6eThmZDFnaWl0M2JtcjJtcW5jMjV4eGx2Z3F6dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gkR9QMDSXg5DDJ0hKI/giphy.gif" alt="disco ball" />
-    </div>
-    <div class="love-text">I love you <span style="color:#ff4d6d;font-size:1.05em;">❤️</span></div>
   </div>
 </div>
 
@@ -186,9 +332,7 @@ button {
   const successContent = document.getElementById('success-content');
   const successInner = document.getElementById('success-inner');
 
-  // Move the No button to a random spot (sets position:fixed so it can move)
   function placeNoBtnRandom() {
-    // ensure the escaping position is fixed so left/top take effect
     noBtn.style.position = 'fixed';
     const btnRect = noBtn.getBoundingClientRect();
     const btnW = Math.max(btnRect.width, 60);
@@ -197,7 +341,6 @@ button {
     const maxX = Math.max(window.innerWidth - btnW - padding, padding);
     const maxY = Math.max(window.innerHeight - btnH - padding, padding);
 
-    // Avoid placing too close to center (where Yes is)
     const avoidCenterX = window.innerWidth / 2;
     const avoidCenterY = window.innerHeight / 2;
     let x, y, tries = 0;
@@ -207,13 +350,12 @@ button {
       tries++;
       if (tries > 40) break;
     } while (Math.hypot(x - avoidCenterX, y - avoidCenterY) < 120);
-    // set with a small offset animation
+
     noBtn.style.left = x + 'px';
     noBtn.style.top  = y + 'px';
     noBtn.style.transform = 'translateZ(0) scale(1)';
   }
 
-  // When user clicks Yes: show the success screen
   yesBtn.addEventListener('click', () => {
     mainContent.style.display = 'none';
     successContent.style.display = 'flex';
@@ -222,16 +364,12 @@ button {
     successInner.classList.add('fade-in');
   });
 
-  // Move when pointer enters the No button
   noBtn.addEventListener('mouseenter', () => {
     placeNoBtnRandom();
   });
 
-  // Proximity-based move: if pointer gets too close to the No button, move it
   const PROXIMITY_THRESHOLD = 100;
   document.addEventListener('mousemove', (e) => {
-    // If the No button is in normal flow (i.e., still position:relative),
-    // compute its center based on the bounding rect; if pointer too close, escape.
     const rect = noBtn.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -241,20 +379,12 @@ button {
     }
   });
 
-  // Keep button inside viewport after resize (if it's been moved)
   window.addEventListener('resize', () => {
     const rect = noBtn.getBoundingClientRect();
     if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
-      // Move to a safe place (we keep it fixed here to ensure visibility)
       placeNoBtnRandom();
     }
   });
-
-  // Optionally: keyboard accessibility — allow focus/activation for No button
-  // (If you prefer to prevent keyboard focusing, set tabindex="-1" on #noBtn in HTML.)
-
-  // Note: We intentionally do NOT randomize button position on load so No begins
-  // beside Yes. If you want a small entrance animation, you can add one here.
 
 })();
 </script>
